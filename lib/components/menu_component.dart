@@ -25,6 +25,12 @@ class MenuComponent extends StatelessWidget{
                 Get.toNamed('/produtos');
               },
             ),
+            ListTile(
+              title: Text("Listar Lojas"),
+              onTap: () {
+                Get.toNamed('/lojas');
+              },
+            ),
           ],
         ),
       );
