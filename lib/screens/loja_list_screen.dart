@@ -86,6 +86,13 @@ class _LojaListScreenState extends State<LojaListScreen> {
           },
         );
       }),
+      floatingActionButton: FloatingActionButton.extended(
+          onPressed: (){
+            Get.toNamed('/lojaForm');
+          },
+        label: Text('Nova loja'),
+        icon: Icon(Icons.add),
+      ),
     );
   }
 }

@@ -29,4 +29,19 @@ class LojaService {
     }
     throw Exception('Erro ao apagar loja: ${res.statusCode}');
   }
+
+  Future<LojaModel> salvar(LojaModel lojaModel) async{
+    final res = await _client.post(Uri.parse(baseUrl + '/salvar'),
+      headers: {'Content-Type': 'application/json'},
+      body: jsonEncode(lojaModel),
+    );
+    if(res.statusCode >= 200 && res.statusCode < 300 ){
+      return LojaModel.fromJson(jsonDecode(res.body));
+    }
+    throw Exception('Erro ao apagar loja: ${res.statusCode}');
+  }
+
+
+
+
 }

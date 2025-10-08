@@ -1,12 +1,13 @@
 import 'package:app_produtos/models/loja_model.dart';
 import 'package:app_produtos/services/loja_service.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class LojaController extends GetxController {
   final LojaService service;
   LojaController({required this.service});
 
-  final lojas = <LojaModel>[].obs;
+   final lojas = <LojaModel>[].obs;
   final isLoading = false.obs;
   final error = ''.obs;
 
@@ -43,6 +44,34 @@ class LojaController extends GetxController {
     }
     finally{
         isLoading.value = false;
+    }
+  }
+
+  Future<void> salvar(
+  {
+    required String nome,
+    required String endereco,
+    required String cnpj
+  }) async{
+    try{
+      isLoading.value = true;
+      await service.salvar(
+        LojaModel(
+            id: '',
+            nome: nome,
+            endereco: endereco,
+            cnpj: cnpj)
+      );
+      Get.back();
+      Get.snackbar('Sucesso', 'Loja salva com sucesso',
+          backgroundColor: Colors.green
+      );
+      listar();
+    }catch(e){
+      Get.snackbar('Erro', e.toString());
+    }
+    finally{
+      isLoading.value = false;
     }
   }
 

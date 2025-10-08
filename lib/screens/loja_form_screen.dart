@@ -46,6 +46,7 @@ class _LojaFormScreenState extends State<LojaFormScreen> {
       body:
           Padding(padding: EdgeInsets.all(16),
             child: Form(
+              key: _formKey,
               child:
               ListView(
                 children: [
@@ -61,6 +62,26 @@ class _LojaFormScreenState extends State<LojaFormScreen> {
                       controller: _cnpjCtrl,
                       decoration: InputDecoration(labelText: 'CNPJ da loja')
                   ),
+                  SizedBox(height: 20,),
+                  Obx(() => ElevatedButton.icon(
+                      onPressed:
+                          widget.controller.isLoading.value ? null
+                              :(){
+                                  if(_formKey.currentState!.validate()){
+                                    widget.controller.salvar(
+                                        nome: _nomeCtrl.text,
+                                        endereco: _enderecoCtrl.text,
+                                        cnpj: _cnpjCtrl.text
+                                    );
+                                  }
+                                 },
+                    icon: Icon(Icons.save),
+                    label: Text(
+                        widget.controller.isLoading.value ? 'Salvando...': 'Salvar'
+                    ),
+                  )
+
+                  )
                 ],
               )
             ),
