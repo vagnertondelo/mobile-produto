@@ -1,11 +1,11 @@
 class LojaModel {
-  final String? id;
+  final String id;
   final String nome;
   final String endereco;
   final String cnpj;
 
   LojaModel({
-    this.id,
+    required this.id,
     required this.nome,
     required this.endereco,
     required this.cnpj,
@@ -14,7 +14,7 @@ class LojaModel {
   // Fábrica que cria um LojaModel a partir de um JSON
   factory LojaModel.fromJson(Map<String, dynamic> json) {
     return LojaModel(
-      id: json['id']?.toString(),
+      id: json['id']!.toString(),
       nome: json['nome'] ?? '',
       endereco: json['endereco'] ?? '',
       cnpj: json['cnpj'] ?? '',

@@ -28,4 +28,23 @@ class LojaController extends GetxController {
       isLoading.value = false;
     }
   }
+
+  Future<void> remover(String id) async{
+    try{
+      isLoading.value = true;
+      final res = await service.delete(id);
+      Get.snackbar('Sucesso', res);
+      //forma 1
+      listar();
+      //forma 2
+      // lojas.removeWhere((l)=>l.id == id);
+    }catch(e){
+      Get.snackbar('Erro', e.toString());
+    }
+    finally{
+        isLoading.value = false;
+    }
+  }
+
+
 }

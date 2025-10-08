@@ -58,15 +58,25 @@ class _LojaListScreenState extends State<LojaListScreen> {
                   children: [
                     IconButton(
                       onPressed: () {
-                        // Ação para deletar loja (a implementar)
+                        Get.toNamed('/lojaForm', arguments: loja);
                       },
                       icon: Icon(Icons.edit, color: Colors.blue),
                     ),
                     IconButton(
-                      onPressed: () {
-                        // Ação para deletar loja (a implementar)
-                      },
                       icon: Icon(Icons.delete, color: Colors.red),
+                      onPressed: () {
+                        Get.defaultDialog(
+                          title: "Remover",
+                          middleText: 'Deseja remover a loja ${loja.nome}',
+                          textCancel: "Cancelar",
+                          textConfirm: "Confirmar",
+                          onConfirm: (){
+                            widget.controller.remover(loja.id);
+                            Get.back();
+                          },
+                        );
+                      },
+
                     ),
                   ],
                 )
