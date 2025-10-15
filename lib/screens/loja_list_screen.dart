@@ -8,16 +8,16 @@ import '../components/menu_component.dart';
 
 class LojaListScreen extends StatefulWidget {
 
-  final controller = Get.put(LojaController(
-    service: LojaService(),
-  ));
+  // final controller = Get.put(LojaController(
+  //   service: LojaService(),
+  // ));
 
   @override
   State<LojaListScreen> createState() => _LojaListScreenState();
 }
 
 class _LojaListScreenState extends State<LojaListScreen> {
-
+  final LojaController controller = Get.find();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,20 +27,20 @@ class _LojaListScreenState extends State<LojaListScreen> {
       ),
       drawer: MenuComponent(),
       body: Obx(() {
-        if(widget.controller.isLoading.value){
+        if(controller.isLoading.value){
           return Center(child: CircularProgressIndicator());
         }
-        if(widget.controller.error.isNotEmpty){
-          return Center(child: Text('Erro: ${widget.controller.error}'));
+        if(controller.error.isNotEmpty){
+          return Center(child: Text('Erro: ${controller.error}'));
         }
-        if(widget.controller.lojas.isEmpty){
+        if(controller.lojas.isEmpty){
           return Center(child: Text('Nenhuma loja encontrada'));
         }
 
         return ListView.builder(
-          itemCount: widget.controller.lojas.length,
+          itemCount: controller.lojas.length,
           itemBuilder: (context, i) {
-            final loja = widget.controller.lojas[i];
+            final loja = controller.lojas[i];
             return Card(
               margin: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
               child: ListTile(
@@ -71,7 +71,7 @@ class _LojaListScreenState extends State<LojaListScreen> {
                           textCancel: "Cancelar",
                           textConfirm: "Confirmar",
                           onConfirm: (){
-                            widget.controller.remover(loja.id);
+                            controller.remover(loja.id);
                             Get.back();
                           },
                         );
