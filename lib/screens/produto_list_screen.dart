@@ -8,14 +8,14 @@ import '../components/menu_component.dart';
 
 class ProdutoListScreen extends StatefulWidget {
 
-  final controller = Get.put(ProdutoController(
-                          service: ProdutoService()));
+  // final controller = Get.put(ProdutoController(
+  //                         service: ProdutoService()));
 
   @override
   State<ProdutoListScreen> createState() => _ProdutoListScreenState();
 }
 class _ProdutoListScreenState extends State<ProdutoListScreen> {
-
+  final ProdutoController controller = Get.find();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,21 +27,21 @@ class _ProdutoListScreenState extends State<ProdutoListScreen> {
       MenuComponent(),
       body:
         Obx(() {
-            if(widget.controller.isLoading.value){
+            if(controller.isLoading.value){
               return Center(child: CircularProgressIndicator(),);
             }
-            if(widget.controller.error.isNotEmpty){
+            if(controller.error.isNotEmpty){
                 return Center(child:
-                Text('Erro: ${widget.controller.error}'),);
+                Text('Erro: ${controller.error}'),);
             }
-            if(widget.controller.produtos.isEmpty){
+            if(controller.produtos.isEmpty){
               return Center(child: Text('Nenhum produto encontrado'),);
             }
 
             return ListView.builder(
-                itemCount: widget.controller.produtos.length,
+                itemCount: controller.produtos.length,
                 itemBuilder: (variavel, i){
-                  final p = widget.controller.produtos[i];
+                  final p = controller.produtos[i];
                   return Card(
                     margin: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                     child: ListTile(
@@ -54,7 +54,14 @@ class _ProdutoListScreenState extends State<ProdutoListScreen> {
                   );
                 }
             );
-        })
+        }),
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: (){
+          Get.toNamed('/produtoForm');
+        },
+        label: Text('Novo  Produto'),
+        icon: Icon(Icons.add),
+      ),
     );
   }
 }

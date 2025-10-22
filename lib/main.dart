@@ -1,9 +1,12 @@
 import 'package:app_produtos/controllers/loja_controller.dart';
+import 'package:app_produtos/controllers/produto_controller.dart';
 import 'package:app_produtos/screens/home_screen.dart';
 import 'package:app_produtos/screens/loja_form_screen.dart';
 import 'package:app_produtos/screens/loja_list_screen.dart';
+import 'package:app_produtos/screens/produto_form_screen.dart';
 import 'package:app_produtos/screens/produto_list_screen.dart';
 import 'package:app_produtos/services/loja_service.dart';
+import 'package:app_produtos/services/produto_service.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
@@ -27,15 +30,39 @@ class MyApp extends StatelessWidget {
       // lista das rotas e paginas
       getPages: [
         GetPage(name: '/', page: () => MyHomePage(title: 'home')),
-        GetPage(name: '/produtos', page: () => ProdutoListScreen()),
 
+        GetPage(name: '/produtos',
+                page: () => ProdutoListScreen(),
+                binding: BindingsBuilder((){
+                  Get.lazyPut(() => LojaService());
+                  Get.lazyPut(()=> ProdutoService());
+                  Get.put(
+                    LojaController(service: Get.find<LojaService>())
+                  );
+                  Get.put(
+                      ProdutoController(service: Get.find<ProdutoService>())
+                  );
+                })
+        ),
+        GetPage(name: '/produtoForm',
+            page: () => ProdutoFormScreen(),
+            binding: BindingsBuilder((){
+              Get.lazyPut(() => LojaService());
+              Get.lazyPut(()=> ProdutoService());
+              Get.put(
+                  LojaController(service: Get.find<LojaService>())
+              );
+              Get.put(
+                  ProdutoController(service: Get.find<ProdutoService>())
+              );
+            })
+        ),
         GetPage(
             name: '/lojas',
             page: () => LojaListScreen(),
             binding: BindingsBuilder((){
               // camada de acesse da API
               Get.lazyPut(()=> LojaService()); //Registra LOja service sob demanda
-
               // COntroller estado da tela
               Get.put(
                 LojaController(service: Get.find<LojaService>())
