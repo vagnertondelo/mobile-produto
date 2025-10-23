@@ -79,8 +79,11 @@ class _LojaListScreenState extends State<LojaListScreen> {
 
                     ),
                   ],
-                )
+                ),
+                onTap: (){
 
+
+                 },
               ),
             );
           },

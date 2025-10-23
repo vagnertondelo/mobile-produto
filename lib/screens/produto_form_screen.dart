@@ -1,6 +1,7 @@
 import 'package:app_produtos/controllers/loja_controller.dart';
 import 'package:app_produtos/controllers/produto_controller.dart';
 import 'package:app_produtos/models/loja_model.dart';
+import 'package:app_produtos/models/produto_model.dart';
 import 'package:app_produtos/services/loja_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -9,8 +10,6 @@ import 'package:get/get.dart';
 import '../components/menu_component.dart';
 
 class ProdutoFormScreen extends StatefulWidget {
-
-
 
   @override
   State<ProdutoFormScreen> createState() => _ProdutoFormScreenState();
@@ -31,11 +30,15 @@ class _ProdutoFormScreenState extends State<ProdutoFormScreen> {
   void initState(){
     super.initState();
     final arg = Get.arguments;
-    if(arg !=null && arg is LojaModel){
+    if(arg !=null && arg is ProdutoModel){
       id = arg.id;
       _nomeCtrl.text = arg.nome;
-      _descricaoCtrl.text = arg.endereco;
-      _precoCtrl.text = arg.cnpj;
+      _descricaoCtrl.text = arg.descricao;
+      _precoCtrl.text = arg.preco.toString();
+
+      if(lojaController.lojas.isEmpty){
+        lojaController.listar();
+      }
     }
   }
   @override
@@ -110,11 +113,13 @@ class _ProdutoFormScreenState extends State<ProdutoFormScreen> {
                   produtoController.isLoading.value ? null
                       :(){
                     if(_formKey.currentState!.validate()){
-                      // produtoController.salvar(
-                      //     nome: _nomeCtrl.text,
-                      //     endereco: _enderecoCtrl.text,
-                      //     cnpj: _cnpjCtrl.text
-                      // );
+                      final precoConvertido = double.parse(_precoCtrl.text);
+                      produtoController.salvar(
+                          nome: _nomeCtrl.text,
+                          descricao: _descricaoCtrl.text,
+                          preco: precoConvertido,
+                          lojaId: _lojaId
+                      );
                     }
                   },
                   icon: Icon(Icons.save),

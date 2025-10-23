@@ -28,5 +28,46 @@ class ProdutoController extends GetxController{
         isLoading.value = false;
       }
     }
+  Future<void> remover(String id) async{
+    try{
+      isLoading.value = true;
+      final res = await service.delete(id);
+      Get.snackbar('Sucesso', res);
+      //forma 1
+      listar();
+      //forma 2
+      // lojas.removeWhere((l)=>l.id == id);
+    }catch(e){
+      Get.snackbar('Erro', e.toString());
+    }
+    finally{
+      isLoading.value = false;
+    }
+  }
+  Future<void> salvar({
+    required String nome,
+    required String descricao,
+    required double preco,
+    String? lojaId}) async {
+      try{
+        isLoading.value = true;
+        error.value = '';
+        await service.salvar(
+          ProdutoModel(
+              id:'',
+              nome: nome,
+              descricao: descricao,
+              preco: preco,
+              lojaId: lojaId)
+        );
+        Get.back();
+        Get.snackbar('Sucesso', 'Produto salvao com sucesso');
+        await this.listar();
+      }catch (e){
+        error.value = e.toString();
+      } finally{
+          isLoading.value = false;
+      }
+  }
 
 }

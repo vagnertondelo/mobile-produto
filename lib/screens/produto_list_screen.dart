@@ -47,9 +47,34 @@ class _ProdutoListScreenState extends State<ProdutoListScreen> {
                     child: ListTile(
                       title: Text('${p.nome} - R\$ ${p.preco.toStringAsFixed(2)}'),
                       subtitle: Text(p.descricao),
-                      trailing: IconButton(
-                          onPressed: (){},
-                          icon: Icon(Icons.delete, color: Colors.red,)),
+                        trailing:
+                        Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            IconButton(
+                              onPressed: () {
+                                Get.toNamed('/produtoForm', arguments: p);
+                              },
+                              icon: Icon(Icons.edit, color: Colors.blue),
+                            ),
+                            IconButton(
+                              icon: Icon(Icons.delete, color: Colors.red),
+                              onPressed: () {
+                                Get.defaultDialog(
+                                  title: "Remover",
+                                  middleText: 'Deseja remover a loja ${p.nome}',
+                                  textCancel: "Cancelar",
+                                  textConfirm: "Confirmar",
+                                  onConfirm: (){
+                                    controller.remover(p.id);
+                                    Get.back();
+                                  },
+                                );
+                              },
+
+                            ),
+                          ],
+                        )
                     ),
                   );
                 }
