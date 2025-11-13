@@ -40,4 +40,16 @@ class ProdutoService{
     }
 
 
+    Future<ProdutoModel> editar(ProdutoModel produtoModel) async{
+      final res = await _client.post(
+        Uri.parse(baseUrl + '/editar/${produtoModel.id}'),
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode(produtoModel),
+      );
+      if(res.statusCode >= 200 && res.statusCode < 300 ){
+        return ProdutoModel.fromJson(jsonDecode(res.body));
+      }
+      throw Exception('Erro ao apagar loja: ${res.statusCode}');
+    }
+
 }

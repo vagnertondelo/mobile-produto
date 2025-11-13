@@ -114,7 +114,8 @@ class _ProdutoFormScreenState extends State<ProdutoFormScreen> {
                       :(){
                     if(_formKey.currentState!.validate()){
                       final precoConvertido = double.parse(_precoCtrl.text);
-                      produtoController.salvar(
+                      produtoController.salvarOuEditar(
+                          id: id,
                           nome: _nomeCtrl.text,
                           descricao: _descricaoCtrl.text,
                           preco: precoConvertido,

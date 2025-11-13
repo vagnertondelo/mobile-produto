@@ -44,7 +44,8 @@ class ProdutoController extends GetxController{
       isLoading.value = false;
     }
   }
-  Future<void> salvar({
+  Future<void> salvarOuEditar({
+     String? id,
     required String nome,
     required String descricao,
     required double preco,
@@ -52,17 +53,34 @@ class ProdutoController extends GetxController{
       try{
         isLoading.value = true;
         error.value = '';
-        await service.salvar(
-          ProdutoModel(
-              id:'',
-              nome: nome,
-              descricao: descricao,
-              preco: preco,
-              lojaId: lojaId)
-        );
-        Get.back();
-        Get.snackbar('Sucesso', 'Produto salvao com sucesso');
-        await this.listar();
+        if(id == null){
+          await service.salvar(
+              ProdutoModel(
+                  id:'',
+                  nome: nome,
+                  descricao: descricao,
+                  preco: preco,
+                  lojaId: lojaId)
+          );
+          Get.back();
+          Get.snackbar('Sucesso', 'Produto salvao com sucesso');
+          await this.listar();
+        }else{
+          await service.editar(
+              ProdutoModel(
+                  id: id,
+                  nome: nome,
+                  descricao: descricao,
+                  preco: preco,
+                  lojaId: lojaId)
+          );
+          Get.back();
+          Get.snackbar('Sucesso', 'Produto editado com sucesso');
+          await this.listar();
+        }
+
+
+
       }catch (e){
         error.value = e.toString();
       } finally{
