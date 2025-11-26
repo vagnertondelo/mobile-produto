@@ -1,6 +1,7 @@
 import 'package:app_produtos/controllers/loja_controller.dart';
 import 'package:app_produtos/controllers/produto_controller.dart';
 import 'package:app_produtos/screens/home_screen.dart';
+import 'package:app_produtos/screens/login_screen.dart';
 import 'package:app_produtos/screens/loja_form_screen.dart';
 import 'package:app_produtos/screens/loja_list_screen.dart';
 import 'package:app_produtos/screens/produto_form_screen.dart';
@@ -26,7 +27,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
       //rota inicial
-      initialRoute: '/',
+      initialRoute: '/login',
       // lista das rotas e paginas
       getPages: [
         GetPage(name: '/', page: () => MyHomePage(title: 'home')),
@@ -81,6 +82,9 @@ class MyApp extends StatelessWidget {
               );
             })
         ),
+        GetPage(
+            name: '/login',
+            page: () => LoginScreen())
       ],
     );
   }
